@@ -1,9 +1,10 @@
+import 'package:form_flow/presentation/widget/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_flow/entities/nominee_info_entity.dart';
-import 'package:form_flow/presentation/bloc/form_cubit.dart';
-import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
-import 'package:form_flow/presentation/widget/custom_text_field.dart';
+import '../../entities/nominee_info_entity.dart';
+import '../bloc/form_cubit.dart';
+import '../widget/custom_navigate_button.dart';
+import '../widget/custom_text_field.dart';
 
 class NomineeInfoPage extends StatefulWidget {
   const NomineeInfoPage({super.key, required this.info});
@@ -17,12 +18,21 @@ class NomineeInfoPage extends StatefulWidget {
 class _NomineeInfoPageState extends State<NomineeInfoPage> {
   final _form = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _relationshipController = TextEditingController();
   final _ownerShipPercentageController = TextEditingController();
+  String? _selectedRelationship;
+
+  final List<String> _relationships = [
+    'Father',
+    'Mother',
+    'Spouse',
+    'Son',
+    'Daughter',
+    'Other'
+  ];
 
   void updateFields() {
     _nameController.text = widget.info.nomineeName;
-    _relationshipController.text = widget.info.relationShip;
+    _selectedRelationship = widget.info.relationShip.isNotEmpty ? widget.info.relationShip : null;
     _ownerShipPercentageController.text = widget.info.ownership;
   }
 
@@ -35,7 +45,6 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
   @override
   void dispose() {
     _nameController.dispose();
-    _relationshipController.dispose();
     _ownerShipPercentageController.dispose();
     super.dispose();
   }
@@ -73,19 +82,17 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
         },
         controller: _nameController,
       ),
-      CustomTextField(
-        hintText: "Relationship",
-        isObscure: false,
-        iconData: Icons.people_outline,
-        keyboardType: TextInputType.text,
-        validator: (input) {
-          if (input == null || input.isEmpty) {
-            return "This field can't be empty";
-          }
-          return null;
+      const SizedBox(height: 4),
+      CustomDropdown(
+        values: _relationships,
+        initialValue: _selectedRelationship,
+        onValuesSelected: (relationship) {
+          setState(() {
+            _selectedRelationship = relationship;
+          });
         },
-        controller: _relationshipController,
       ),
+      const SizedBox(height: 4),
       CustomTextField(
         hintText: "Ownership Percentage",
         isObscure: false,
@@ -105,46 +112,44 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
         },
         controller: _ownerShipPercentageController,
       ),
-
-      SizedBox(height: 12),
+      const SizedBox(height: 12),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               CustomRegisterButton(
                 onSubmit: () {
                   context.read<FormCubit>().previousOfNomineeInfo(
-                    NomineeInfoEntity(
-                      nomineeName: _nameController.text,
-                      relationShip: _relationshipController.text,
-                      ownership: _ownerShipPercentageController.text,
-                    ),
-                  );
+                        NomineeInfoEntity(
+                          nomineeName: _nameController.text,
+                          relationShip: _selectedRelationship ?? '',
+                          ownership: _ownerShipPercentageController.text,
+                        ),
+                      );
                 },
                 text: "<- Previous Page",
               ),
             ],
           ),
-
           Row(
             children: [
               BlocBuilder<FormCubit, FormStatee>(
                 builder: (context, state) {
                   if (state.isAuthenticating) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else {
                     return CustomRegisterButton(
                       onSubmit: () {
                         // if (_form.currentState!.validate()) {
-                          context.read<FormCubit>().register(
-                            NomineeInfoEntity(
-                              nomineeName: _nameController.text,
-                              relationShip: _relationshipController.text,
-                              ownership: _ownerShipPercentageController.text,
-                            ),
-                          );
+                        context.read<FormCubit>().register(
+                              NomineeInfoEntity(
+                                nomineeName: _nameController.text,
+                                relationShip: _selectedRelationship ?? '',
+                                ownership: _ownerShipPercentageController.text,
+                              ),
+                            );
                         // }
                       },
                       text: "Register",
@@ -152,7 +157,7 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
                   }
                 },
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
             ],
           ),
         ],

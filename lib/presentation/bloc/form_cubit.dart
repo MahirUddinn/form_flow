@@ -8,24 +8,29 @@ part 'form_state.dart';
 
 class FormCubit extends Cubit<FormStatee> {
   FormCubit()
-    : super(
-        FormStatee(
-          accountData: AccountInfoEntity(name: "", accountNumber: ""),
-          bankData: BankDetailsEntity(
-            bankName: "",
-            routingNumber: "",
-            phoneNumber: "",
-            cardInfo: "",
+      : super(
+          FormStatee(
+            accountData: AccountInfoEntity(
+              name: "",
+              accountNumber: "",
+              dob: "",
+              imagePath: "",
+            ),
+            bankData: BankDetailsEntity(
+              bankName: "",
+              routingNumber: "",
+              phoneNumber: "",
+              cardInfo: "",
+            ),
+            nomineeData: NomineeInfoEntity(
+              nomineeName: "",
+              relationShip: "",
+              ownership: "",
+            ),
+            isAuthenticating: false,
+            status: FormFlow.account,
           ),
-          nomineeData: NomineeInfoEntity(
-            nomineeName: "",
-            relationShip: "",
-            ownership: "",
-          ),
-          isAuthenticating: false,
-          status: FormFlow.account,
-        ),
-      );
+        );
 
   void nextOfAccountInfo(AccountInfoEntity value) =>
       emit(state.copyWith(accountData: value, status: FormFlow.bank));
@@ -47,22 +52,20 @@ class FormCubit extends Cubit<FormStatee> {
     print("===== ACCOUNT INFO =====");
     print("Name: ${state.accountData.name}");
     print("Account Number: ${state.accountData.accountNumber}");
-    //dob
-    //chobi
+    print("Date of Birth: ${state.accountData.dob}");
+    print("Image Path: ${state.accountData.imagePath}");
 
     print("===== BANK DETAILS =====");
     print("Bank Name: ${state.bankData.bankName}");
     print("Routing Number: ${state.bankData.routingNumber}");
     print("Phone Number: ${state.bankData.phoneNumber}");
     print("Card Info: ${state.bankData.cardInfo}");
-    //
 
     print("===== NOMINEE INFO =====");
-    print("Nominee Name: ${state.nomineeData.nomineeName}");
-    print("Relationship: ${state.nomineeData.relationShip}");//in a dropdown
-    print("Ownership: ${state.nomineeData.ownership}");
+    print("Nominee Name: ${value.nomineeName}");
+    print("Relationship: ${value.relationShip}");
+    print("Ownership: ${value.ownership}");
 
     emit(state.copyWith(isAuthenticating: false));
   }
-
 }

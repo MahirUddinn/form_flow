@@ -2,11 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:form_flow/entities/account_info_entity.dart';
 import 'package:form_flow/presentation/bloc/form_cubit.dart';
+import 'package:form_flow/presentation/widget/custom_birthday_picker.dart';
 import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
 import 'package:form_flow/presentation/widget/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_flow/presentation/widget/image_picker.dart';
 import 'package:intl/intl.dart';
+
+import '../widget/custom_image_picker.dart';
 
 class AccountInfoPage extends StatefulWidget {
   const AccountInfoPage({super.key, required this.info});
@@ -28,6 +30,12 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   void updateFields() {
     _nameController.text = widget.info.name;
     _accountNumberController.text = widget.info.accountNumber;
+    if (widget.info.imagePath != null && widget.info.imagePath!.isNotEmpty) {
+      _selectedImage = File(widget.info.imagePath!);
+    }
+    if (widget.info.dob != null && widget.info.dob!.isNotEmpty) {
+      _selectedDate = formatter.parse(widget.info.dob!);
+    }
   }
 
   void _dayPicker() async {
@@ -95,7 +103,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         keyboardType: TextInputType.text,
         validator: (input) {
           if (input == null || input.isEmpty) {
-            return "This field can't be empty";
+            return "Account number must contain digits only";
           }
           if (int.tryParse(input) == null) {
             return "Account number must contain digits only";
@@ -104,10 +112,22 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         },
         controller: _accountNumberController,
       ),
-      SizedBox(height: 4),
-
-      _birthdayPicker(),
-      SizedBox(height: 12),
+      const SizedBox(height: 4),
+      CustomBirthdayPicker(
+        onTap: _dayPicker,
+        selectedDate: _selectedDate,
+        formatter: formatter,
+      ),
+      const SizedBox(height: 8),
+      CustomImagePicker(
+        initialImage: _selectedImage,
+        onImagePicked: (image) {
+          setState(() {
+            _selectedImage = image;
+          });
+        },
+      ),
+      const SizedBox(height: 12),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -115,43 +135,25 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             onSubmit: () {
               // if(_form.currentState!.validate()){
               context.read<FormCubit>().nextOfAccountInfo(
-                AccountInfoEntity(
-                  name: _nameController.text,
-                  accountNumber: _accountNumberController.text,
-                ),
-              );
+                    AccountInfoEntity(
+                      name: _nameController.text,
+                      accountNumber: _accountNumberController.text,
+                      dob: _selectedDate != null
+                          ? formatter.format(_selectedDate!)
+                          : '',
+                      imagePath: _selectedImage?.path ?? '',
+                    ),
+                  );
               // }
             },
             text: "Next Page ->",
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
         ],
       ),
     ];
   }
 
-  Widget _birthdayPicker() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: ListTile(
-        onTap: _dayPicker,
-        title:
-        Row(
-          children: [
-            Icon(Icons.calendar_month),
-            SizedBox(width: 13,),
-            (_selectedDate == null)
-                ? Opacity(opacity: 0.8, child: const Text("Select your birthday"))
-                : Text(formatter.format(_selectedDate!)),
-          ],
-        )
 
-      ),
-    );
-  }
 }
+
