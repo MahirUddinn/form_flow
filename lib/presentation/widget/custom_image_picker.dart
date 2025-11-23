@@ -7,7 +7,7 @@ class CustomImagePicker extends StatefulWidget {
   const CustomImagePicker({
     super.key,
     required this.onImagePicked,
-    this.initialImage,
+    required this.initialImage,
   });
 
   final void Function(File? image) onImagePicked;

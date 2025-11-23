@@ -1,14 +1,14 @@
 class AccountInfoEntity {
   final String name;
   final String accountNumber;
-  final String? dob;
-  final String? imagePath;
+  final String dob;
+  final String imagePath;
 
   AccountInfoEntity({
     required this.name,
     required this.accountNumber,
-    this.dob,
-    this.imagePath,
+    required this.dob,
+    required this.imagePath,
   });
 
   AccountInfoEntity copyWith({

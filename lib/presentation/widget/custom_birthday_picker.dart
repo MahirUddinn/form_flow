@@ -5,7 +5,7 @@ class CustomBirthdayPicker extends StatelessWidget {
   const CustomBirthdayPicker({
     super.key,
     required this.onTap,
-    this.selectedDate,
+    required this.selectedDate,
     required this.formatter,
   });
 

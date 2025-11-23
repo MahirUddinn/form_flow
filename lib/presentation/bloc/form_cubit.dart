@@ -1,9 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_flow/entities/account_info_entity.dart';
 import 'package:form_flow/entities/bank_details_entity.dart';
 import 'package:form_flow/entities/nominee_info_entity.dart';
-import 'package:meta/meta.dart';
-
 part 'form_state.dart';
 
 class FormCubit extends Cubit<FormStatee> {

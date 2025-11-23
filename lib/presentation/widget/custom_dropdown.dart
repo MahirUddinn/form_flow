@@ -17,12 +17,12 @@ class CustomDropdown extends StatefulWidget {
 }
 
 class _CustomDropdownState extends State<CustomDropdown> {
-  String? _selectedRelationship;
+  String? _selectedValue;
 
   @override
   void initState() {
     super.initState();
-    _selectedRelationship = widget.initialValue;
+    _selectedValue = widget.initialValue;
   }
 
   @override
@@ -46,13 +46,13 @@ class _CustomDropdownState extends State<CustomDropdown> {
           prefixIconConstraints: BoxConstraints(minWidth: 40, minHeight: 40),
         ),
         hint: Text("Select a relationship"),
-        initialValue: _selectedRelationship,
+        initialValue: _selectedValue,
         items: widget.values
             .map((label) => DropdownMenuItem(value: label, child: Text(label)))
             .toList(),
         onChanged: (value) {
           setState(() {
-            _selectedRelationship = value;
+            _selectedValue = value;
           });
           widget.onValuesSelected(value);
         },
