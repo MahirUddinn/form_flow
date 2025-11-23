@@ -142,7 +142,7 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
                   } else {
                     return CustomRegisterButton(
                       onSubmit: () {
-                        // if (_form.currentState!.validate()) {
+                        if (_form.currentState!.validate()) {
                         context.read<FormCubit>().register(
                               NomineeInfoEntity(
                                 nomineeName: _nameController.text,
@@ -150,7 +150,7 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
                                 ownership: _ownerShipPercentageController.text,
                               ),
                             );
-                        // }
+                        }
                       },
                       text: "Register",
                     );

@@ -10,15 +10,14 @@ class CustomRegisterButton extends StatelessWidget {
   final VoidCallback onSubmit;
   final String text;
 
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onSubmit,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: const Color(0xFF0793EB),
+          color: Color(0xFF0793EB),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(

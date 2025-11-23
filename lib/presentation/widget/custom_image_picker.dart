@@ -65,7 +65,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Image selected"),
-                    Container(
+                    SizedBox(
                       width: 40,
                       height: 40,
                       child: Image.file(_selectedImage!, fit: BoxFit.cover),

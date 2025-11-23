@@ -30,11 +30,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   void updateFields() {
     _nameController.text = widget.info.name;
     _accountNumberController.text = widget.info.accountNumber;
-    if (widget.info.imagePath != null && widget.info.imagePath!.isNotEmpty) {
-      _selectedImage = File(widget.info.imagePath!);
+    if (widget.info.imagePath.isNotEmpty) {
+      _selectedImage = File(widget.info.imagePath);
     }
-    if (widget.info.dob != null && widget.info.dob!.isNotEmpty) {
-      _selectedDate = formatter.parse(widget.info.dob!);
+    if (widget.info.dob.isNotEmpty) {
+      _selectedDate = formatter.parse(widget.info.dob);
     }
   }
 
@@ -133,7 +133,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         children: [
           CustomRegisterButton(
             onSubmit: () {
-              // if(_form.currentState!.validate()){
+              if(_form.currentState!.validate()){
               context.read<FormCubit>().nextOfAccountInfo(
                     AccountInfoEntity(
                       name: _nameController.text,
@@ -144,7 +144,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                       imagePath: _selectedImage?.path ?? '',
                     ),
                   );
-              // }
+              }
             },
             text: "Next Page ->",
           ),

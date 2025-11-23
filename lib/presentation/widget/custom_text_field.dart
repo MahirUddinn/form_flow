@@ -40,9 +40,9 @@ class CustomTextField extends StatelessWidget {
 
           prefixIcon: iconData != null
               ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Icon(iconData, color: const Color(0xFF020202)),
-          )
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Icon(iconData, color: Color(0xFF020202)),
+                )
               : null,
 
           prefixIconConstraints: const BoxConstraints(

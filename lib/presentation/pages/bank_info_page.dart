@@ -152,7 +152,7 @@ class _BankInfoPageState extends State<BankInfoPage> {
             children: [
               CustomRegisterButton(
                 onSubmit: () {
-                  // if (_form.currentState!.validate()) {
+                  if (_form.currentState!.validate()) {
                     context.read<FormCubit>().nextOfBankDetails(
                       BankDetailsEntity(
                         bankName: _bankNameController.text,
@@ -161,7 +161,7 @@ class _BankInfoPageState extends State<BankInfoPage> {
                         cardInfo: _cardNumberController.text,
                       ),
                     );
-                  // }
+                  }
                 },
                 text: "Next Page ->",
               ),
