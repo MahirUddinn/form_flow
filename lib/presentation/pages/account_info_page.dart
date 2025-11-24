@@ -7,6 +7,7 @@ import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
 import 'package:form_flow/presentation/widget/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
 import '../widget/custom_image_picker.dart';
 
 class AccountInfoPage extends StatefulWidget {
@@ -29,8 +30,12 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   void updateFields() {
     _nameController.text = widget.info.name;
     _accountNumberController.text = widget.info.accountNumber;
-    _selectedImage = File(widget.info.imagePath);
-    _selectedDate = formatter.parse(widget.info.dob);
+    if (widget.info.imagePath.isNotEmpty) {
+      _selectedImage = File(widget.info.imagePath);
+    }
+    if (widget.info.dob.isNotEmpty) {
+      _selectedDate = formatter.parse(widget.info.dob);
+    }
   }
 
   void _dayPicker() async {

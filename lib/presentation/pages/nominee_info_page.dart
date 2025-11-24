@@ -27,27 +27,24 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
     'Spouse',
     'Son',
     'Daughter',
-    'Other',
+    'Other'
   ];
   void updateFields() {
     _nameController.text = widget.info.nomineeName;
-    _selectedRelationship = widget.info.relationShip;
+    _selectedRelationship = widget.info.relationShip.isNotEmpty ? widget.info.relationShip : null;
     _ownerShipPercentageController.text = widget.info.ownership;
   }
-
   @override
   void initState() {
     updateFields();
     super.initState();
   }
-
   @override
   void dispose() {
     _nameController.dispose();
     _ownerShipPercentageController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -127,12 +124,12 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
               CustomRegisterButton(
                 onSubmit: () {
                   context.read<FormCubit>().previousOfNomineeInfo(
-                    NomineeInfoEntity(
-                      nomineeName: _nameController.text,
-                      relationShip: _selectedRelationship ?? '',
-                      ownership: _ownerShipPercentageController.text,
-                    ),
-                  );
+                        NomineeInfoEntity(
+                          nomineeName: _nameController.text,
+                          relationShip: _selectedRelationship ?? '',
+                          ownership: _ownerShipPercentageController.text,
+                        ),
+                      );
                 },
                 text: "<- Previous Page",
               ),
@@ -148,13 +145,13 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
                     return CustomRegisterButton(
                       onSubmit: () {
                         if (_form.currentState!.validate()) {
-                          context.read<FormCubit>().register(
-                            NomineeInfoEntity(
-                              nomineeName: _nameController.text,
-                              relationShip: _selectedRelationship ?? '',
-                              ownership: _ownerShipPercentageController.text,
-                            ),
-                          );
+                        context.read<FormCubit>().register(
+                              NomineeInfoEntity(
+                                nomineeName: _nameController.text,
+                                relationShip: _selectedRelationship ?? '',
+                                ownership: _ownerShipPercentageController.text,
+                              ),
+                            );
                         }
                       },
                       text: "Register",
