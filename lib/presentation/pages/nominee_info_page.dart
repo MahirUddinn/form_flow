@@ -84,6 +84,12 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
       ),
       const SizedBox(height: 4),
       CustomDropdown(
+        validator: (input) {
+          if (input == null) {
+            return "This field can't be empty";
+          }
+          return null;
+        },
         values: _relationships,
         initialValue: _selectedRelationship,
         onValuesSelected: (relationship) {

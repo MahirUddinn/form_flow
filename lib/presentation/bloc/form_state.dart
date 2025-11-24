@@ -1,6 +1,6 @@
 part of 'form_cubit.dart';
 
-enum FormFlow { account, bank, nominee }
+enum FormFlow { account, bank, nominee, receipt }
 
 class FormStatee{
   AccountInfoEntity accountData;
@@ -14,7 +14,7 @@ class FormStatee{
     required this.status,
     required this.accountData,
     required this.bankData,
-    required this.nomineeData
+    required this.nomineeData,
   });
 
   FormStatee copyWith({
@@ -23,6 +23,7 @@ class FormStatee{
     bool? isAuthenticating,
     FormFlow? status,
     NomineeInfoEntity? nomineeData
+
   }) {
     return FormStatee(
       accountData: accountData ?? this.accountData,

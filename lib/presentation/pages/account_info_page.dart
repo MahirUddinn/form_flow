@@ -103,7 +103,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         keyboardType: TextInputType.text,
         validator: (input) {
           if (input == null || input.isEmpty) {
-            return "Account number must contain digits only";
+            return "This field can't be empty";
           }
           if (int.tryParse(input) == null) {
             return "Account number must contain digits only";
@@ -114,12 +114,24 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       ),
       const SizedBox(height: 4),
       CustomBirthdayPicker(
+        validator: (value) {
+          if (_selectedDate == null) {
+            return "This field can't be empty";
+          }
+          return null;
+        },
         onTap: _dayPicker,
         selectedDate: _selectedDate,
         formatter: formatter,
       ),
       const SizedBox(height: 8),
       CustomImagePicker(
+        validator: (value){
+          if (value == null) {
+            return "This field can't be empty";
+          }
+          return null;
+        },
         initialImage: _selectedImage,
         onImagePicked: (image) {
           setState(() {

@@ -3,6 +3,7 @@ import 'package:form_flow/presentation/bloc/form_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_flow/presentation/pages/account_info_page.dart';
 import 'package:form_flow/presentation/pages/bank_info_page.dart';
+import 'package:form_flow/presentation/pages/final_form_page.dart';
 import 'package:form_flow/presentation/pages/nominee_info_page.dart';
 
 class RootPage extends StatelessWidget {
@@ -24,6 +25,9 @@ class RootPage extends StatelessWidget {
           }
           if(state.status == FormFlow.nominee){
             return NomineeInfoPage(info: state.nomineeData,);
+          }
+          if(state.status == FormFlow.receipt){
+            return FinalFormPage();
           }
           return Container();
         },
