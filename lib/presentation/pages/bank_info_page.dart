@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_flow/entities/bank_details_entity.dart';
+import 'package:form_flow/domain/entities/bank_details_entity.dart';
 import 'package:form_flow/presentation/bloc/form_cubit.dart';
 import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
 import 'package:form_flow/presentation/widget/custom_text_field.dart';

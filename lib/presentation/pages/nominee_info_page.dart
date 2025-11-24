@@ -1,7 +1,7 @@
+import 'package:form_flow/domain/entities/nominee_info_entity.dart';
 import 'package:form_flow/presentation/widget/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../entities/nominee_info_entity.dart';
 import '../bloc/form_cubit.dart';
 import '../widget/custom_navigate_button.dart';
 import '../widget/custom_text_field.dart';
@@ -27,12 +27,11 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
     'Spouse',
     'Son',
     'Daughter',
-    'Other'
+    'Other',
   ];
-
   void updateFields() {
     _nameController.text = widget.info.nomineeName;
-    _selectedRelationship = widget.info.relationShip.isNotEmpty ? widget.info.relationShip : null;
+    _selectedRelationship = widget.info.relationShip;
     _ownerShipPercentageController.text = widget.info.ownership;
   }
 
@@ -128,12 +127,12 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
               CustomRegisterButton(
                 onSubmit: () {
                   context.read<FormCubit>().previousOfNomineeInfo(
-                        NomineeInfoEntity(
-                          nomineeName: _nameController.text,
-                          relationShip: _selectedRelationship ?? '',
-                          ownership: _ownerShipPercentageController.text,
-                        ),
-                      );
+                    NomineeInfoEntity(
+                      nomineeName: _nameController.text,
+                      relationShip: _selectedRelationship ?? '',
+                      ownership: _ownerShipPercentageController.text,
+                    ),
+                  );
                 },
                 text: "<- Previous Page",
               ),
@@ -149,13 +148,13 @@ class _NomineeInfoPageState extends State<NomineeInfoPage> {
                     return CustomRegisterButton(
                       onSubmit: () {
                         if (_form.currentState!.validate()) {
-                        context.read<FormCubit>().register(
-                              NomineeInfoEntity(
-                                nomineeName: _nameController.text,
-                                relationShip: _selectedRelationship ?? '',
-                                ownership: _ownerShipPercentageController.text,
-                              ),
-                            );
+                          context.read<FormCubit>().register(
+                            NomineeInfoEntity(
+                              nomineeName: _nameController.text,
+                              relationShip: _selectedRelationship ?? '',
+                              ownership: _ownerShipPercentageController.text,
+                            ),
+                          );
                         }
                       },
                       text: "Register",

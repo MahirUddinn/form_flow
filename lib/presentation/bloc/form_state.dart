@@ -1,6 +1,6 @@
 part of 'form_cubit.dart';
 
-enum FormFlow { account, bank, nominee, receipt }
+enum FormFlow { account, bank, nominee, receipt , confirm}
 
 class FormStatee{
   AccountInfoEntity accountData;

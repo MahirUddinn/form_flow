@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:form_flow/entities/account_info_entity.dart';
+import 'package:form_flow/domain/entities/account_info_entity.dart';
 import 'package:form_flow/presentation/bloc/form_cubit.dart';
 import 'package:form_flow/presentation/widget/custom_birthday_picker.dart';
 import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
 import 'package:form_flow/presentation/widget/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 import '../widget/custom_image_picker.dart';
 
 class AccountInfoPage extends StatefulWidget {
@@ -30,12 +29,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   void updateFields() {
     _nameController.text = widget.info.name;
     _accountNumberController.text = widget.info.accountNumber;
-    if (widget.info.imagePath.isNotEmpty) {
-      _selectedImage = File(widget.info.imagePath);
-    }
-    if (widget.info.dob.isNotEmpty) {
-      _selectedDate = formatter.parse(widget.info.dob);
-    }
+    _selectedImage = File(widget.info.imagePath);
+    _selectedDate = formatter.parse(widget.info.dob);
   }
 
   void _dayPicker() async {
@@ -126,7 +121,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       ),
       const SizedBox(height: 8),
       CustomImagePicker(
-        validator: (value){
+        validator: (value) {
           if (value == null) {
             return "This field can't be empty";
           }
@@ -145,17 +140,17 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         children: [
           CustomRegisterButton(
             onSubmit: () {
-              if(_form.currentState!.validate()){
-              context.read<FormCubit>().nextOfAccountInfo(
-                    AccountInfoEntity(
-                      name: _nameController.text,
-                      accountNumber: _accountNumberController.text,
-                      dob: _selectedDate != null
-                          ? formatter.format(_selectedDate!)
-                          : '',
-                      imagePath: _selectedImage?.path ?? '',
-                    ),
-                  );
+              if (_form.currentState!.validate()) {
+                context.read<FormCubit>().nextOfAccountInfo(
+                  AccountInfoEntity(
+                    name: _nameController.text,
+                    accountNumber: _accountNumberController.text,
+                    dob: _selectedDate != null
+                        ? formatter.format(_selectedDate!)
+                        : '',
+                    imagePath: _selectedImage?.path ?? '',
+                  ),
+                );
               }
             },
             text: "Next Page ->",
@@ -165,7 +160,4 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       ),
     ];
   }
-
-
 }
-

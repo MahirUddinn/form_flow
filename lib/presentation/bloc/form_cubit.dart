@@ -1,11 +1,10 @@
-
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_flow/entities/account_info_entity.dart';
-import 'package:form_flow/entities/bank_details_entity.dart';
-import 'package:form_flow/entities/nominee_info_entity.dart';
+import 'package:form_flow/domain/entities/account_info_entity.dart';
+import 'package:form_flow/domain/entities/bank_details_entity.dart';
+import 'package:form_flow/domain/entities/nominee_info_entity.dart';
 import 'package:path_provider/path_provider.dart';
 part 'form_state.dart';
 
@@ -78,7 +77,7 @@ class FormCubit extends Cubit<FormStatee> {
     emit(state.copyWith(isAuthenticating: false));
   }
 
-  void onSave(Uint8List imageBytes)async{
+  void onSave(Uint8List imageBytes) async {
     emit(state.copyWith(isAuthenticating: true));
     final Directory? dir = await getExternalStorageDirectory();
     final String imageDir = dir!.path.split("Android")[0];
@@ -87,17 +86,41 @@ class FormCubit extends Cubit<FormStatee> {
     final Directory saveDir = Directory("$imageDir$folderName");
 
     if (!await saveDir.exists()) {
-    await saveDir.create();
+      await saveDir.create();
     }
 
     final String filePath =
-    "${saveDir.path}/image_${DateTime.now().millisecondsSinceEpoch}.png";
+        "${saveDir.path}/image_${DateTime.now().millisecondsSinceEpoch}.png";
 
     final File file = File(filePath);
     await file.writeAsBytes(imageBytes);
 
     print("Saved at: $filePath");
-    emit(state.copyWith(isAuthenticating: false));
+    emit(state.copyWith(isAuthenticating: false, status: FormFlow.confirm));
+  }
 
+  void onReset() {
+    emit(
+      state.copyWith(
+        accountData: AccountInfoEntity(
+          name: "",
+          accountNumber: "",
+          dob: "",
+          imagePath: "",
+        ),
+        bankData: BankDetailsEntity(
+          bankName: "",
+          routingNumber: "",
+          phoneNumber: "",
+          cardInfo: "",
+        ),
+        nomineeData: NomineeInfoEntity(
+          nomineeName: "",
+          relationShip: "",
+          ownership: "",
+        ),
+        status: FormFlow.account,
+      ),
+    );
   }
 }

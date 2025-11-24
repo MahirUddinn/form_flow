@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_flow/presentation/bloc/form_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_flow/presentation/widget/custom_navigate_button.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -45,7 +44,8 @@ class FinalFormPage extends StatelessWidget {
     final Uint8List imageBytes = await screenshotController.captureFromWidget(
       _finalInfo(context, state),
       delay: Duration(milliseconds: 100),
-      pixelRatio: 1.0,
+      pixelRatio: 3.0,
+
     );
 
     context.read<FormCubit>().onSave(imageBytes);
@@ -64,14 +64,6 @@ class FinalFormPage extends StatelessWidget {
             CustomRegisterButton(
               onSubmit: () {
                 _saveImage(context, state);
-                if (!state.isAuthenticating) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: Duration(seconds: 1),
-                      content: Text("Image Saved"),
-                    ),
-                  );
-                }
               },
               text: "Save",
             ),
